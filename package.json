@@ -18,6 +18,9 @@
     "@types/next": "^9.0.0",
     "@types/react": "^16.9.19",
     "@types/styled-components": "^4.4.3",
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "babel-plugin-styled-components": "^1.10.7",
     "typescript": "^3.7.5"
   }
 }
