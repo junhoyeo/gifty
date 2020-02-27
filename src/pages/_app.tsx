@@ -1,6 +1,9 @@
 import React from 'react';
+import ReactModal from 'react-modal';
 import App from 'next/app';
 import Head from 'next/head';
+
+ReactModal.setAppElement('#__next');
 
 type AppProps = {
   Component: React.ReactNode,
