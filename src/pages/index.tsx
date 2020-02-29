@@ -31,8 +31,7 @@ const Home = () => {
         <CreateModal
           isOpen={isCreateModalOpen}
           onRequestClose={onChangeCreateModalOpen}
-        >
-        </CreateModal>
+        />
       </Container>
     </Layout>
   );
