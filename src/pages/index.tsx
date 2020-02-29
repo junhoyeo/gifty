@@ -50,7 +50,7 @@ const CreateButton = styled(Button)`
   left: 1.8rem;
   right: 1.8rem;
   width: calc(100% - 3.6rem);
-  z-index: 999;
+  z-index: 2;
 `;
 
 const Title = styled(Text)`

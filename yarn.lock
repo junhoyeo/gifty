@@ -5923,6 +5923,11 @@ url@0.11.0, url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
+use-safe-window@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/use-safe-window/-/use-safe-window-0.5.0.tgz#dc4400db79c69f4c1f51b3d09a228668f4b3634d"
+  integrity sha512-zl4br/C3L3AeGQ70mb1DT68r873+tbqrq21Aq8BeDT6hyf3167u6tfFDDIWOBtMtlUkXVGOgMjC5tEwV/a53NA==
+
 use-subscription@1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/use-subscription/-/use-subscription-1.1.1.tgz#5509363e9bb152c4fb334151d4dceb943beaa7bb"
