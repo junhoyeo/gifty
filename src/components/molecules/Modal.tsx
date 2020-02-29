@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactModal from 'react-modal';
-import useWindowSize from '../utils/useWindowSize';
+import useWindowSize from '../../utils/useWindowSize';
 
 export type ModalProps = {
   isOpen?: boolean;
