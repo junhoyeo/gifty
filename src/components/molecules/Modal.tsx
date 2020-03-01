@@ -2,14 +2,14 @@ import * as React from 'react';
 import ReactModal from 'react-modal';
 import useWindowSize from '../../utils/useWindowSize';
 
-export type ModalProps = {
+export interface IModal {
   isOpen?: boolean;
   onAfterOpen?: () => void;
   onRequestClose?: () => void;
   children?: React.ReactNode;
 };
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onAfterOpen, onRequestClose, children }) => {
+const Modal: React.FC<IModal> = ({ isOpen, onAfterOpen, onRequestClose, children }) => {
   const { width } = useWindowSize();
   const isNarrower = width <= 500;
   const modalStylesWithResponsiveWidth = getModalStyles(isNarrower);

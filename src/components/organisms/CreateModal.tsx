@@ -7,8 +7,10 @@ import Button from '../atoms/Button';
 import Input from '../atoms/Input';
 import DateInput from '../molecules/DateInput';
 import Loading from '../molecules/Loading';
-import Modal, { ModalProps } from '../molecules/Modal';
-import { IGiftCard, defaultGiftCard, isValidGiftCard } from '../../utils/models';
+import Modal, { IModal } from '../molecules/Modal';
+
+import { IGiftCard, defaultGiftCard, checkValidGiftCard } from '../../utils/models';
+import useProductList from '../../utils/useProductList';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -28,9 +30,14 @@ const getCardInfo = async (image, logger) => {
   return giftCard;
 };
 
-const CreateModal: React.FC<ModalProps> = ({
-  isOpen, onAfterOpen, onRequestClose,
+interface ICreateModal extends IModal {
+  onUpdateAfterClose?: () => void;
+}
+
+const CreateModal: React.FC<ICreateModal> = ({
+  isOpen, onAfterOpen, onRequestClose, onUpdateAfterClose,
 }) => {
+  const [productList, setProductList] = useProductList();
   const [image, setImage] = useState<string>('');
   const [product, setProduct] = useState<IGiftCard>(defaultGiftCard);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -79,9 +86,20 @@ const CreateModal: React.FC<ModalProps> = ({
 
   const onClickAddButton = () => {
     try {
-      if (isValidGiftCard(product)) {
-        toast.dismiss();
+      checkValidGiftCard(product);
+      toast.dismiss();
+      const { order } = product;
+      if (productList.find((v: IGiftCard) => v.order === order)) {
+        toast.error('이미 같은 주문 번호의 이모티콘이 존재합니다.');
+        return;
       }
+      setProductList([
+        ...productList,
+        product,
+      ]);
+      toast('추가했습니다!');
+      onBeforeRequestClose();
+      onUpdateAfterClose();
     } catch ({ message }) {
       toast.error(message);
     }

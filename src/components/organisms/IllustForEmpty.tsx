@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 import { PrimaryText, SecondaryText } from '../atoms/Text';
 
-const IllustForEmpty = ({ isEmpty }) => {
+type IllustForEmptyProps = {
+  isEmpty?: boolean;
+};
+
+const IllustForEmpty: React.FC<IllustForEmptyProps> = ({ isEmpty = false }) => {
   if (!isEmpty) {
     return (null);
   }

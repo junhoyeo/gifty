@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import Button from '../components/atoms/Button';
 import ProductCard from '../components/ProductCard';
 import CreateModal from '../components/organisms/CreateModal';
+import IllustForEmpty from '../components/organisms/IllustForEmpty';
 import Layout from '../components/Layout';
 import Text from '../components/atoms/Text';
 
-import useLocalStorage from '../utils/useLocalStorage';
+import useProductList from '../utils/useProductList';
 
 import 'react-toastify/dist/ReactToastify.css';
-import IllustForEmpty from '../components/organisms/IllustForEmpty';
+import { loadFromLocalStorage } from '../utils/useLocalStorage';
 
 const Home = () => {
-  const [productList, setProductList] = useLocalStorage('products', []);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [productList, setProductList] = useProductList();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+  const [isProductListEmpty, setIsProductListEmpty] = useState<boolean>(false);
 
   const onChangeCreateModalOpen = () =>
     setIsCreateModalOpen(!isCreateModalOpen);
 
-  const isProductListEmpty = !productList.length;
+  const onUpdateProductList = () =>
+    setProductList(loadFromLocalStorage('products', []));
+
+  useEffect(
+    () => {
+      setIsProductListEmpty(
+        !productList.length,
+      );
+    },
+    [],
+  );
 
   return (
     <Layout>
@@ -50,6 +62,7 @@ const Home = () => {
         <CreateModal
           isOpen={isCreateModalOpen}
           onRequestClose={onChangeCreateModalOpen}
+          onUpdateAfterClose={onUpdateProductList}
         />
       </Container>
       <ToastContainer
