@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import styled, { css } from 'styled-components';
+import KakaoGiftOCR from 'kakao-gift-ocr';
 
 import Button from '../atoms/Button';
 import Input from '../atoms/Input';
@@ -12,16 +12,16 @@ import { IGiftCard, defaultGiftCard, isValidGiftCard } from '../../utils/models'
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-async function getBase64FromFile(file): Promise<string | ArrayBuffer> {
-  return new Promise((resolve, reject) => {
-    let reader = new FileReader();
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
+const getCardInfo = async (image) => {
+  const giftCardParser = new KakaoGiftOCR(
+    console.log,
+    '/static/data/lang-data',
+  );
+  await giftCardParser.Ready;
+  const giftCard = await giftCardParser.getInfo(image);
+  await giftCardParser.terminate();
+  return giftCard;
+};
 
 const CreateModal: React.FC<ModalProps> = ({
   isOpen, onAfterOpen, onRequestClose,
@@ -44,24 +44,24 @@ const CreateModal: React.FC<ModalProps> = ({
   const onChangeImage = async (event: any) => {
     setIsLoading(true);
     const rawImage = event.target.files[0];
-    const base64Image = await getBase64FromFile(rawImage);
-
-    const { data: cardInfo } = await axios.post('/api/card', {
-      image: base64Image,
-    });
     const {
-      product: productName,
-      barcode: productBarcode,
-      order: productOrder,
-      date: productDueDate,
-    } = cardInfo;
-    console.log(cardInfo);
+      name = '인식 실패',
+      barcode = '인식 실패',
+      order = '인식 실패',
+      dueDate: productDueDate,
+    } = await getCardInfo(rawImage);
+
     setProduct({
-      ...cardInfo,
-      name: productName,
-      barcode: productBarcode.toString(),
-      order: productOrder.toString(),
-      dueDate: new Date(productDueDate),
+      name,
+      barcode,
+      order,
+      dueDate: (() => {
+        try {
+          return new Date(productDueDate);
+        } catch {
+          return new Date();
+        }
+      })(),
     });
     setIsLoading(false);
   };
