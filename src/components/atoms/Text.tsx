@@ -14,3 +14,17 @@ const Text = styled.span`
 `;
 
 export default Text;
+
+export const PrimaryText = styled(Text)`
+  font-weight: 800;
+  margin-top: 0.5rem;
+  color: #1b2944;
+  text-align: center;
+  word-break: keep-all;
+`;
+
+export const SecondaryText = styled(Text)`
+  font-weight: bold;
+  color: #868e96;
+  font-size: 0.95rem;
+`;

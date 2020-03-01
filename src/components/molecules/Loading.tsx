@@ -2,7 +2,7 @@ import React from 'react';
 import ReactLoading from 'react-loading';
 import styled from 'styled-components';
 
-import Text from '../atoms/Text';
+import { PrimaryText, SecondaryText } from '../atoms/Text';
 
 type LoadingType =
   'blank' | 'balls' | 'bars' | 'bubbles' | 'cubes' |
@@ -35,12 +35,12 @@ const Loading: React.FC<LoadingProps> = ({
         height={85}
         width={85}
       />
-      <LoadingText>
+      <PrimaryText>
         OCR 엔진이 데이터를 추출하고 있습니다.<br />
         <SecondaryText>
           약간의 시간이 걸릴 수 있습니다.
         </SecondaryText>
-      </LoadingText>
+      </PrimaryText>
     </Container>
   )
 };
@@ -52,18 +52,4 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const LoadingText = styled(Text)`
-  font-weight: bold;
-  margin-top: 0.5rem;
-  color: #1b2944;
-  text-align: center;
-  word-break: keep-all;
-`;
-
-const SecondaryText = styled(Text)`
-  font-weight: bold;
-  color: #868e96;
-  font-size: 0.95rem;
 `;

@@ -11,6 +11,7 @@ import Text from '../components/atoms/Text';
 import useLocalStorage from '../utils/useLocalStorage';
 
 import 'react-toastify/dist/ReactToastify.css';
+import IllustForEmpty from '../components/organisms/IllustForEmpty';
 
 const Home = () => {
   const [productList, setProductList] = useLocalStorage('products', []);
@@ -19,6 +20,8 @@ const Home = () => {
   const onChangeCreateModalOpen = () =>
     setIsCreateModalOpen(!isCreateModalOpen);
 
+  const isProductListEmpty = !productList.length;
+
   return (
     <Layout>
       <Container>
@@ -26,6 +29,9 @@ const Home = () => {
           기프티콘 목록
         </Title>
         <ProductList>
+          <IllustForEmpty
+            isEmpty={isProductListEmpty}
+          />
           {productList.map(({ image, name, order, dueDate }, idx) => (
             <ProductCard
               key={`product-${idx}`}
