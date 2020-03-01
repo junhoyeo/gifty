@@ -19,7 +19,7 @@ export default class CustomApp extends App<AppProps> {
     return (
       <>
         <Head>
-          <title>기프니</title>
+          <title>기프티</title>
           <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700,900&display=swap" rel="stylesheet"></link>
         </Head>
         <Component {...pageProps} />
