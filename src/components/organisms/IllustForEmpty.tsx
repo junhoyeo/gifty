@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { PrimaryText, SecondaryText } from '../atoms/Text';
 
 const IllustForEmpty = ({ isEmpty }) => {
+  if (!isEmpty) {
+    return (null);
+  }
   return (
     <Container>
       <Illust
