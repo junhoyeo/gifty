@@ -15,6 +15,7 @@ const Button = styled(TextWithButton)`
     -9px -9px 16px  rgba(255,255,255, 0.5);
   color: rgb(27, 41, 68);
   text-shadow: 2px 2px 3px rgba(193, 204, 224, 0.9);
+  border-radius: 64px;
 `;
 
 export default Button;

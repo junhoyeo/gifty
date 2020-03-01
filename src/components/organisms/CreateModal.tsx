@@ -2,7 +2,12 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import Input from '../atoms/Input';
+import DateInput from '../molecules/DateInput';
 import Modal, { ModalProps } from '../molecules/Modal';
+import { IGiftCard, defaultGiftCard } from '../../utils/models';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 async function getBase64FromFile(file): Promise<string | ArrayBuffer> {
   return new Promise((resolve, reject) => {
@@ -19,6 +24,18 @@ const CreateModal: React.FC<ModalProps> = ({
   isOpen, onAfterOpen, onRequestClose,
 }) => {
   const [image, setImage] = useState<string>('');
+  const [product, setProduct] = useState<IGiftCard>(defaultGiftCard);
+
+  const onChangeProduct = (field: string, event) =>
+    setProduct({ ...product, [field]: event.target.value });
+
+  const onChangeProductDate = (date: Date) =>
+    setProduct({ ...product, dueDate: date });
+
+  const onBeforeRequestClose = () => {
+    setProduct(defaultGiftCard);
+    onRequestClose();
+  };
 
   const onChangeImage = async (event: any) => {
     const rawImage = event.target.files[0];
@@ -28,24 +45,69 @@ const CreateModal: React.FC<ModalProps> = ({
     const { data: cardInfo } = await axios.post('/api/card', {
       image: base64Image,
     });
+    const {
+      product: productName,
+      barcode: productBarcode,
+      order: productOrder,
+      date: productDueDate,
+    } = cardInfo;
     console.log(cardInfo);
+    setProduct({
+      ...cardInfo,
+      name: productName,
+      barcode: productBarcode.toString(),
+      order: productOrder.toString(),
+      dueDate: new Date(productDueDate),
+    });
   };
 
+  const { name, barcode, dueDate, order } = product;
   return (
     <Modal
       isOpen={isOpen}
       onAfterOpen={onAfterOpen}
-      onRequestClose={onRequestClose}
+      onRequestClose={onBeforeRequestClose}
     >
-      <Input
+      <FileInput
         type="file"
         onChange={onChangeImage}
       />
+      <InfoForm>
+        <Input
+          type="text"
+          placeholder="상품 이름"
+          value={name}
+          onChange={(event) => onChangeProduct('name', event)}
+        />
+        <Input
+          type="text"
+          placeholder="바코드 번호"
+          value={barcode}
+          onChange={(event) => onChangeProduct('barcode', event)}
+        />
+        <Input
+          type="text"
+          placeholder="주문 번호"
+          value={order}
+          onChange={(event) => onChangeProduct('order', event)}
+        />
+        <DateInput
+          placeholderText="유효기간"
+          selected={dueDate}
+          onChange={onChangeProductDate}
+        />
+      </InfoForm>
     </Modal>
   );
 };
 
 export default CreateModal;
 
-const Input = styled.input`
+const InfoForm = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FileInput = styled.input`
+  margin-bottom: 1rem;
 `;

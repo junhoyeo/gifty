@@ -5,6 +5,9 @@ import Text from './atoms/Text';
 import { formatDateToKorean } from '../utils/formatDate';
 import RoundButton from './molecules/RoundButton';
 
+const defaultTransparentImage =
+  'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
+
 type ProductCardProps = {
   image?: string;
   title?: string;
@@ -19,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <Container>
       <Image
-        src={image || 'https://dummyimage.com/64x64/fff/e3e3e3'}
+        src={image || defaultTransparentImage}
       />
       <Info>
         <OrderNumber>

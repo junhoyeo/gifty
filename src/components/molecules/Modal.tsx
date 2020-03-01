@@ -39,7 +39,7 @@ const getModalStyles = (isNarrower) => ({
     right: 'unset',
     top: 'unset',
     border: 'none',
-    minWidth: isNarrower ? undefined : '350px',
+    maxWidth: isNarrower ? undefined : '350px',
     width: isNarrower ? 'calc(75% - 2rem)' : undefined,
     background: 'linear-gradient(145deg, #d8dde4, #ffffff)',
     boxShadow: `
