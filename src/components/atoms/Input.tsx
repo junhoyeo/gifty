@@ -15,6 +15,7 @@ export const sharedInputCSS = css`
   border-radius: 64px;
   font-weight: 600;
   text-shadow: none;
+  transition: 0.2s all ease-in-out;
 
   &:focus {
     box-shadow:

@@ -1,8 +1,10 @@
 import React from 'react';
+import { setDefaultLocale } from 'react-datepicker';
 import ReactModal from 'react-modal';
 import App from 'next/app';
 import Head from 'next/head';
 
+setDefaultLocale('ko');
 ReactModal.setAppElement('#__next');
 
 type AppProps = {
