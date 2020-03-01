@@ -11,3 +11,17 @@ export const defaultGiftCard: IGiftCard = {
   dueDate: null,
   order: '',
 };
+
+const isValidDate = (date: Date) =>
+  date instanceof Date && !isNaN(Number(date));
+
+export const isValidGiftCard = (giftCard: IGiftCard): boolean => {
+  const { name, barcode, dueDate, order } = giftCard;
+  if (!isValidDate(dueDate)) {
+    throw Error('올바른 날짜가 아닙니다.');
+  }
+  if (!name || !barcode || !order) {
+    throw Error('모든 필드의 값을 확인해 주세요.');
+  }
+  return true;
+};

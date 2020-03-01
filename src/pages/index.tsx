@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import Button from '../components/atoms/Button';
@@ -7,7 +8,12 @@ import CreateModal from '../components/organisms/CreateModal';
 import Layout from '../components/Layout';
 import Text from '../components/atoms/Text';
 
+import useLocalStorage from '../utils/useLocalStorage';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 const Home = () => {
+  const [productList, setProductList] = useLocalStorage('products', []);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const onChangeCreateModalOpen = () =>
@@ -20,8 +26,15 @@ const Home = () => {
           기프티콘 목록
         </Title>
         <ProductList>
-          <ProductCard />
-          <ProductCard />
+          {productList.map(({ image, name, order, dueDate }, idx) => (
+            <ProductCard
+              key={`product-${idx}`}
+              image={image}
+              name={name}
+              order={order}
+              dueDate={dueDate}
+            />
+          ))}
         </ProductList>
         <CreateButton
           onClick={onChangeCreateModalOpen}
@@ -33,6 +46,9 @@ const Home = () => {
           onRequestClose={onChangeCreateModalOpen}
         />
       </Container>
+      <ToastContainer
+        position={toast.POSITION.TOP_CENTER}
+      />
     </Layout>
   );
 };

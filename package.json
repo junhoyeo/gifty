@@ -21,6 +21,7 @@
     "react-dom": "16.13.0",
     "react-loading": "^2.0.3",
     "react-modal": "^3.11.2",
+    "react-toastify": "^5.5.0",
     "styled-components": "^5.0.1",
     "styled-normalize": "^8.0.7",
     "use-safe-window": "^0.5.0"

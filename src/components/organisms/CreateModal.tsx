@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import styled, { css } from 'styled-components';
 
 import Button from '../atoms/Button';
@@ -7,7 +8,7 @@ import Input from '../atoms/Input';
 import DateInput from '../molecules/DateInput';
 import Loading from '../molecules/Loading';
 import Modal, { ModalProps } from '../molecules/Modal';
-import { IGiftCard, defaultGiftCard } from '../../utils/models';
+import { IGiftCard, defaultGiftCard, isValidGiftCard } from '../../utils/models';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -65,6 +66,16 @@ const CreateModal: React.FC<ModalProps> = ({
     setIsLoading(false);
   };
 
+  const onClickAddButton = () => {
+    try {
+      if (isValidGiftCard(product)) {
+        toast.dismiss();
+      }
+    } catch ({ message }) {
+      toast.error(message);
+    }
+  };
+
   const { name, barcode, dueDate, order } = product;
   return (
     <Modal
@@ -106,7 +117,9 @@ const CreateModal: React.FC<ModalProps> = ({
             selected={dueDate}
             onChange={onChangeProductDate}
           />
-          <AddButton>
+          <AddButton
+            onClick={onClickAddButton}
+          >
             추가하기
           </AddButton>
         </FormAfterLoading>

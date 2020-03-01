@@ -10,14 +10,14 @@ const defaultTransparentImage =
 
 type ProductCardProps = {
   image?: string;
-  title?: string;
-  orderNumber?: string;
-  expireDate?: Date;
+  name: string;
+  order: string;
+  dueDate: Date;
   isUsed?: boolean;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  image, orderNumber, title = '배고파', expireDate = new Date(), isUsed = true,
+  image, order, name = '배고파', dueDate = new Date(), isUsed = false,
 }) => {
   return (
     <Container>
@@ -26,13 +26,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
       />
       <Info>
         <OrderNumber>
-          주문번호 {orderNumber}
+          주문번호 {order}
         </OrderNumber>
         <Title>
-          {title}
+          {name}
         </Title>
         <ExpireDate>
-          유효기간 {formatDateToKorean(expireDate)}
+          유효기간 {formatDateToKorean(dueDate)}
         </ExpireDate>
       </Info>
       <ButtonList>
