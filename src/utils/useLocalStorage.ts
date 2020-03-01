@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSafeWindow } from 'use-safe-window';
 
 export function loadFromLocalStorage<T>(key: string, initialValue: T): T {
-  const localStorage = useSafeWindow(window => window.localStorage);
+  const localStorage = typeof window !== 'undefined' ? window.localStorage : undefined;
   const item = localStorage?.getItem(key);
   return item ? JSON.parse(item) : initialValue;
 };
