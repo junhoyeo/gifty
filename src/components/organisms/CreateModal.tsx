@@ -12,9 +12,14 @@ import { IGiftCard, defaultGiftCard, isValidGiftCard } from '../../utils/models'
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-const getCardInfo = async (image) => {
+type TesseractLog = {
+  status: string | undefined;
+  progress: number | undefined;
+};
+
+const getCardInfo = async (image, logger) => {
   const giftCardParser = new KakaoGiftOCR(
-    console.log,
+    logger,
     '/static/data/lang-data',
   );
   await giftCardParser.Ready;
@@ -29,6 +34,10 @@ const CreateModal: React.FC<ModalProps> = ({
   const [image, setImage] = useState<string>('');
   const [product, setProduct] = useState<IGiftCard>(defaultGiftCard);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [tesseractLog, setTesseractLog] = useState<TesseractLog>({
+    status: undefined,
+    progress: undefined,
+  });
 
   const onChangeProduct = (field: string, event) =>
     setProduct({ ...product, [field]: event.target.value });
@@ -41,6 +50,8 @@ const CreateModal: React.FC<ModalProps> = ({
     onRequestClose();
   };
 
+  const logger = (log: TesseractLog) => setTesseractLog(log);
+
   const onChangeImage = async (event: any) => {
     setIsLoading(true);
     const rawImage = event.target.files[0];
@@ -49,7 +60,7 @@ const CreateModal: React.FC<ModalProps> = ({
       barcode = '인식 실패',
       order = '인식 실패',
       dueDate: productDueDate,
-    } = await getCardInfo(rawImage);
+    } = await getCardInfo(rawImage, logger);
 
     setProduct({
       name,
@@ -77,6 +88,7 @@ const CreateModal: React.FC<ModalProps> = ({
   };
 
   const { name, barcode, dueDate, order } = product;
+  const { status, progress } = tesseractLog;
   return (
     <Modal
       isOpen={isOpen}
@@ -90,6 +102,8 @@ const CreateModal: React.FC<ModalProps> = ({
       <FormWrapper>
         <OverlaidLoading
           isLoading={isLoading}
+          status={status}
+          progress={progress}
         />
         <FormAfterLoading
           isLoading={isLoading}
