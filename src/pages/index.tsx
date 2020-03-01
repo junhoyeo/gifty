@@ -9,10 +9,11 @@ import IllustForEmpty from '../components/organisms/IllustForEmpty';
 import Layout from '../components/Layout';
 import Text from '../components/atoms/Text';
 
+import { IGiftCard } from '../utils/models';
+import { loadFromLocalStorage } from '../utils/useLocalStorage';
 import useProductList from '../utils/useProductList';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { loadFromLocalStorage } from '../utils/useLocalStorage';
 
 const Home = () => {
   const [productList, setProductList] = useProductList();
@@ -24,6 +25,16 @@ const Home = () => {
 
   const onUpdateProductList = () =>
     setProductList(loadFromLocalStorage('products', []));
+
+  const onClickDelete = (order: string) => {
+    setProductList(
+      productList.filter(
+        (product: IGiftCard) =>
+          product.order !== order,
+      ),
+    );
+    toast('삭제했습니다!');
+  };
 
   useEffect(
     () => {
@@ -51,6 +62,7 @@ const Home = () => {
               name={name}
               order={order}
               dueDate={dueDate}
+              onClickDeleteButton={() => onClickDelete(order)}
             />
           ))}
         </ProductList>

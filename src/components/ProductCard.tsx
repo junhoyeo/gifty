@@ -9,15 +9,18 @@ const defaultTransparentImage =
   'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>';
 
 type ProductCardProps = {
-  image?: string;
   name: string;
   order: string;
   dueDate: Date;
+  image?: string;
   isUsed?: boolean;
+  onClickCheckButton?: () => void;
+  onClickDeleteButton?: () => void;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  image, order, name = '배고파', dueDate = new Date(), isUsed = false,
+  isUsed = false, name, dueDate,
+  image, order, onClickCheckButton, onClickDeleteButton,
 }) => {
   return (
     <Container>
@@ -38,10 +41,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <ButtonList>
         <CheckButton
           disabled={isUsed}
+          onClick={onClickCheckButton}
         >
           <Icon src="/static/icons/check.svg" />
         </CheckButton>
-        <DeleteButton>
+        <DeleteButton
+          onClick={onClickDeleteButton}
+        >
           <Icon src="/static/icons/trash.svg" />
         </DeleteButton>
       </ButtonList>
